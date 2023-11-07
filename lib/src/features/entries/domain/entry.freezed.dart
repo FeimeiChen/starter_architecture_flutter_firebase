@@ -22,7 +22,9 @@ Entry _$EntryFromJson(Map<String, dynamic> json) {
 mixin _$Entry {
   String get id => throw _privateConstructorUsedError;
   String get jobId => throw _privateConstructorUsedError;
+  @EpochDateTimeConverter()
   DateTime get start => throw _privateConstructorUsedError;
+  @EpochDateTimeConverter()
   DateTime get end => throw _privateConstructorUsedError;
   String get comment => throw _privateConstructorUsedError;
 
@@ -37,7 +39,11 @@ abstract class $EntryCopyWith<$Res> {
       _$EntryCopyWithImpl<$Res, Entry>;
   @useResult
   $Res call(
-      {String id, String jobId, DateTime start, DateTime end, String comment});
+      {String id,
+      String jobId,
+      @EpochDateTimeConverter() DateTime start,
+      @EpochDateTimeConverter() DateTime end,
+      String comment});
 }
 
 /// @nodoc
@@ -92,7 +98,11 @@ abstract class _$$EntryImplCopyWith<$Res> implements $EntryCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id, String jobId, DateTime start, DateTime end, String comment});
+      {String id,
+      String jobId,
+      @EpochDateTimeConverter() DateTime start,
+      @EpochDateTimeConverter() DateTime end,
+      String comment});
 }
 
 /// @nodoc
@@ -143,8 +153,8 @@ class _$EntryImpl implements _Entry {
   _$EntryImpl(
       {required this.id,
       required this.jobId,
-      required this.start,
-      required this.end,
+      @EpochDateTimeConverter() required this.start,
+      @EpochDateTimeConverter() required this.end,
       this.comment = ''});
 
   factory _$EntryImpl.fromJson(Map<String, dynamic> json) =>
@@ -155,8 +165,10 @@ class _$EntryImpl implements _Entry {
   @override
   final String jobId;
   @override
+  @EpochDateTimeConverter()
   final DateTime start;
   @override
+  @EpochDateTimeConverter()
   final DateTime end;
   @override
   @JsonKey()
@@ -201,8 +213,8 @@ abstract class _Entry implements Entry {
   factory _Entry(
       {required final String id,
       required final String jobId,
-      required final DateTime start,
-      required final DateTime end,
+      @EpochDateTimeConverter() required final DateTime start,
+      @EpochDateTimeConverter() required final DateTime end,
       final String comment}) = _$EntryImpl;
 
   factory _Entry.fromJson(Map<String, dynamic> json) = _$EntryImpl.fromJson;
@@ -212,8 +224,10 @@ abstract class _Entry implements Entry {
   @override
   String get jobId;
   @override
+  @EpochDateTimeConverter()
   DateTime get start;
   @override
+  @EpochDateTimeConverter()
   DateTime get end;
   @override
   String get comment;

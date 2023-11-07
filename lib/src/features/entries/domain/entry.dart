@@ -13,8 +13,8 @@ class Entry with _$Entry {
   factory Entry({
     required EntryID id,
     required JobID jobId,
-    required DateTime start,
-    required DateTime end,
+    @EpochDateTimeConverter() required DateTime start,
+    @EpochDateTimeConverter() required DateTime end,
     @Default('') String comment
   }) = _Entry;
 
@@ -24,5 +24,14 @@ class Entry with _$Entry {
     return end.difference(start).inMinutes.toDouble() / 60.0;
   }
 
+}
+class EpochDateTimeConverter implements JsonConverter<DateTime, int> {
+  const EpochDateTimeConverter();
+
+  @override
+  DateTime fromJson(int json) => DateTime.fromMillisecondsSinceEpoch(json);
+
+  @override
+  int toJson(DateTime object) => object.millisecondsSinceEpoch;
 }
 
