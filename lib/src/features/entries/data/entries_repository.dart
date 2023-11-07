@@ -48,13 +48,7 @@ class EntriesRepository {
   Query<Entry> queryEntries({required UserID uid, JobID? jobId}) {
     Query<Entry> query =
         _firestore.collection(entriesPath(uid)).withConverter<Entry>(
-              fromFirestore: (snapshot, _) {
-                var value = snapshot.data()!;
-                value['id'] = snapshot.id;
-                return Entry.fromJson(value);
-
-              },
-                  //Entry.fromMap(snapshot.data()!, snapshot.id),
+              fromFirestore: (snapshot, _)  => Entry.fromJson(snapshot.data()!..['id'] = snapshot.id),
               toFirestore: (entry, _) => entry.toJson(),
             );
     if (jobId != null) {

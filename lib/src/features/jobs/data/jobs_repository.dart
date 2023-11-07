@@ -38,10 +38,7 @@ class JobsRepository {
     final entriesRef = _firestore.collection(entriesPath(uid));
     final entries = await entriesRef.get();
     for (final snapshot in entries.docs) {
-      var value = snapshot.data()!;
-      value['id'] = snapshot.id;
-      final entry = Entry.fromJson(value);
-      //final entry = Entry.fromMap(snapshot.data(), snapshot.id);
+      final entry = Entry.fromJson(snapshot.data()..['id'] = snapshot.id);
       if (entry.jobId == jobId) {
         await snapshot.reference.delete();
       }
@@ -56,15 +53,7 @@ class JobsRepository {
       _firestore
           .doc(jobPath(uid, jobId))
           .withConverter<Job>(
-            fromFirestore: (snapshot, _) {
-              final data = snapshot.data()!;
-              return Job(
-                id: snapshot.id,
-                name: data['name'] as String,
-                ratePerHour: data['ratePerHour'] as int,
-              );
-            },
-                //Job.fromMap(snapshot.data()!, snapshot.id),
+            fromFirestore: (snapshot, _)  => Job.fromJson(snapshot.data()!..['id'] = snapshot.id),
             toFirestore: (job, _) => job.toJson(),
           )
           .snapshots()
@@ -76,15 +65,7 @@ class JobsRepository {
 
   Query<Job> queryJobs({required UserID uid}) =>
       _firestore.collection(jobsPath(uid)).withConverter(
-            fromFirestore: (snapshot, _){
-              final data = snapshot.data()!;
-              return Job(
-                id: snapshot.id,
-                name: data['name'] as String,
-                ratePerHour: data['ratePerHour'] as int,
-              );
-            },
-                //Job.fromMap(snapshot.data()!, snapshot.id),
+            fromFirestore: (snapshot, _)  => Job.fromJson(snapshot.data()!..['id'] = snapshot.id),
             toFirestore: (job, _) => job.toJson(),
           );
 
