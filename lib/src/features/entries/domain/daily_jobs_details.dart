@@ -1,5 +1,5 @@
 import 'package:starter_architecture_flutter_firebase/src/features/entries/domain/entry_job.dart';
-
+import 'entry.dart';
 /// Temporary model class to store the time tracked and pay for a job
 class JobDetails {
   JobDetails({
@@ -59,16 +59,17 @@ class DailyJobsDetails {
     final Map<String, JobDetails> jobDuration = {};
     for (final entryJob in entries) {
       final entry = entryJob.entry;
-      final pay = entry.durationInHours * entryJob.job.ratePerHour;
+      final duration = Entry.durationInHours(entry.start, entry.end);
+      final pay = duration * entryJob.job.ratePerHour;
       if (jobDuration[entry.jobId] == null) {
         jobDuration[entry.jobId] = JobDetails(
           name: entryJob.job.name,
-          durationInHours: entry.durationInHours,
+          durationInHours: duration,
           pay: pay,
         );
       } else {
         jobDuration[entry.jobId]!.pay += pay;
-        jobDuration[entry.jobId]!.durationInHours += entry.durationInHours;
+        jobDuration[entry.jobId]!.durationInHours += duration;
       }
     }
     return jobDuration.values.toList();

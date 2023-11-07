@@ -38,7 +38,10 @@ class JobsRepository {
     final entriesRef = _firestore.collection(entriesPath(uid));
     final entries = await entriesRef.get();
     for (final snapshot in entries.docs) {
-      final entry = Entry.fromMap(snapshot.data(), snapshot.id);
+      var value = snapshot.data()!;
+      value['id'] = snapshot.id;
+      final entry = Entry.fromJson(value);
+      //final entry = Entry.fromMap(snapshot.data(), snapshot.id);
       if (entry.jobId == jobId) {
         await snapshot.reference.delete();
       }
